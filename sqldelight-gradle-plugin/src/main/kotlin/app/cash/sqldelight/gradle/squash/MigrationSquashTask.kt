@@ -1,4 +1,4 @@
-package app.cash.sqldelight.gradle
+package app.cash.sqldelight.gradle.squash
 
 import app.cash.sqldelight.VERSION
 import app.cash.sqldelight.core.SqlDelightCompilationUnit
@@ -6,6 +6,9 @@ import app.cash.sqldelight.core.SqlDelightDatabaseProperties
 import app.cash.sqldelight.core.SqlDelightEnvironment
 import app.cash.sqldelight.core.lang.util.rawSqlText
 import app.cash.sqldelight.dialect.api.SqlDelightDialect
+import app.cash.sqldelight.gradle.SqlDelightCompilationUnitImpl
+import app.cash.sqldelight.gradle.SqlDelightDatabasePropertiesImpl
+import app.cash.sqldelight.gradle.SqlDelightWorkerTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileTree
 import org.gradle.api.provider.Property
@@ -24,7 +27,7 @@ import java.io.File
 import java.util.ServiceLoader
 
 @CacheableTask
-abstract class GenerateMigrationOutputTask : SqlDelightWorkerTask() {
+abstract class MigrationSquashTask : SqlDelightWorkerTask() {
   @Suppress("unused") // Required to invalidate the task on version updates.
   @Input val pluginVersion = VERSION
 
@@ -38,7 +41,7 @@ abstract class GenerateMigrationOutputTask : SqlDelightWorkerTask() {
   @Input lateinit var migrationOutputExtension: String
 
   @TaskAction
-  fun generateSchemaFile() {
+  fun generateSquashedMigrationFile() {
     workQueue().submit(GenerateMigration::class.java) {
       it.outputDirectory.set(outputDirectory)
       it.moduleName.set(projectName)
@@ -100,3 +103,4 @@ abstract class GenerateMigrationOutputTask : SqlDelightWorkerTask() {
     }
   }
 }
+

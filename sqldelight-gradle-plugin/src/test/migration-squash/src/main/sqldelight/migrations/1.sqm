@@ -1,0 +1,7 @@
+CREATE TABLE test (
+  value VARCHAR(8)
+);
+
+CREATE TABLE test2 (
+  value VARCHAR(8)
+);
